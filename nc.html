@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请我喝奶茶吗</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f8ff;
+        }
+        /* 文字样式 */
+        .text {
+            font-size: 24px;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+        /* 按钮容器 */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        /* 按钮通用样式 */
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+        /* 可以按钮样式 */
+        .yes-btn {
+            background-color: #ff69b4;
+            color: white;
+        }
+        /* 不可以按钮样式 */
+        .no-btn {
+            background-color: #cccccc;
+            color: #666666;
+        }
+        /* 弹窗样式 - 放大置顶 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: #ff69b4;
+            font-weight: bold;
+            display: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <!-- 移除萌图代码 -->
+    <div class="text">可以请我喝奶茶吗</div>
+    <div class="btn-group">
+        <button class="btn yes-btn">可以</button>
+        <button class="btn no-btn">不可以</button>
+    </div>
+    <div class="popup">谢谢你～🥰</div>
+
+    <script>
+        // 获取元素
+        const yesBtn = document.querySelector('.yes-btn');
+        const noBtn = document.querySelector('.no-btn');
+        const popup = document.querySelector('.popup');
+        const text = document.querySelector('.text');
+        const btnGroup = document.querySelector('.btn-group');
+
+        // 点击“可以”按钮
+        yesBtn.addEventListener('click', () => {
+            text.style.display = 'none'; // 隐藏原文字
+            popup.style.display = 'block'; // 显示放大的谢谢
+            btnGroup.style.display = 'none'; // 隐藏按钮组
+        });
+
+        // 点击“不可以”按钮
+        noBtn.addEventListener('click', () => {
+            // 可以按钮放大
+            yesBtn.style.transform = `scale(${parseFloat(yesBtn.style.transform?.replace('scale(', '')?.replace(')', '') || 1) + 0.2})`;
+            yesBtn.style.zIndex = '10';
+            // 不可以按钮缩小并右移
+            noBtn.style.transform = `scale(${parseFloat(noBtn.style.transform?.replace('scale(', '')?.replace(')', '') || 1) - 0.2}) translateX(50px)`;
+            noBtn.style.opacity = '0.8';
+
+            // 判断是否缩到很小，移出屏幕
+            if (parseFloat(noBtn.style.transform?.replace('scale(', '')?.replace(')', '') || 1) < 0.2) {
+                noBtn.style.position = 'absolute';
+                noBtn.style.right = '-1000px';
+            }
+        });
+    </script>
+</body>
+</html>
